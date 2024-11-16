@@ -98,7 +98,7 @@ const VideoCarousel = () => {
 
         },
 
-        // minimize prgress bar on video end
+        // minimize progress bar on video end
         onComplete: () => {
           if (isPlaying) {
             gsap.to(videoDivRef.current[videoId], {
