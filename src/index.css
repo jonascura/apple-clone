@@ -83,7 +83,7 @@ canvas {
   }
 
   .control-btn {
-    @apply ml-4 p-4 rounded-full bg-gray-300 backdrop-blur flex-center
+    @apply mr-4 p-4 rounded-full bg-gray-300 backdrop-blur flex-center
   }
 
   .hero-title {
