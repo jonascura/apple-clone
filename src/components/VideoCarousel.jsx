@@ -163,25 +163,25 @@ const VideoCarousel = () => {
       // specific video clicked
       case "video-clicked":
         // pause current video
-        if (videoRef.current[video.videoId]) {
-          videoRef.current[video.videoId].pause();
-          videoRef.current[video.videoId].currentTime = 0; // Reset the current video
-        }
+        // if (videoRef.current[video.videoId]) {
+        //   videoRef.current[video.videoId].pause();
+        //   videoRef.current[video.videoId].currentTime = 0; // Reset the current video
+        // }
 
-        // reset all videos ahead of index
-        videoRef.current.forEach((video, index) => {
-          if (index > i && video) {
-            video.currentTime = 0;
-          }
-        })
+        // // reset all videos ahead of index
+        // videoRef.current.forEach((video, index) => {
+        //   if (index > i && video) {
+        //     video.currentTime = 0;
+        //   }
+        // })
 
-        // set clicked index to current index
-        setVideo((pre) => ({  
-          ...pre,
-          videoId: i,
-          startPlay: true,
-          isPlaying:true,
-        }))
+        // // set clicked index to current index
+        // setVideo((pre) => ({  
+        //   ...pre,
+        //   videoId: i,
+        //   startPlay: true,
+        //   isPlaying:true,
+        // }))
 
         break;
 
