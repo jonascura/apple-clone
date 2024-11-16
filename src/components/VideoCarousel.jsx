@@ -82,7 +82,7 @@ const VideoCarousel = () => {
             // set width of progress bar
             gsap.to(videoDivRef.current[videoId], {
               width:
-                window.innerwidth < 760
+                window.innerWidth < 760
                 ? "10vw" // mobile
                 : window.innerWidth < 1200
                 ? "10vw" // tablet
@@ -130,7 +130,7 @@ const VideoCarousel = () => {
       }
     }
 
-  }, [videoId, startPlay])
+  }, [videoId, startPlay]);
 
 
   const handleProcess = (type, i) => {
@@ -162,9 +162,27 @@ const VideoCarousel = () => {
 
       // specific video clicked
       case "video-clicked":
-        // reset all videos
+        // pause current video
+        if (videoRef.current[video.videoId]) {
+          videoRef.current[video.videoId].pause();
+          videoRef.current[video.videoId].currentTime = 0; // Reset the current video
+        }
+
+        // reset all videos ahead of index
+        videoRef.current.forEach((video, index) => {
+          if (index > i && video) {
+            video.currentTime = 0;
+          }
+        })
+
         // set clicked index to current index
-        // animate all slider dots to full intil it reaches index clicked
+        setVideo((pre) => ({  
+          ...pre,
+          videoId: i,
+          startPlay: true,
+          isPlaying:true,
+        }))
+
         break;
 
       default:
@@ -190,7 +208,7 @@ const VideoCarousel = () => {
                    muted
                    ref={(element) => (videoRef.current[i] = element)}
                    onPlay={() => {
-                    setVideo((prevVideo) => ({...prevVideo, isPlaying:true}))
+                    setVideo((pre) => ({...pre, isPlaying:true}))
                    }}
                    onLoadedMetadata={(e) => handleLoadedMetaData(i, e)}
                    onEnded={() => i !== 3 ? handleProcess("video-end", i) : handleProcess("video-last")}
@@ -227,11 +245,23 @@ const VideoCarousel = () => {
           />
         </button>
         {/* exterior pill */}
-        <div className="flex-center py-6 px-7 bg-gray-300 backdrop-blur rounded-full">
+        <div className="flex-center py-6 bg-gray-300 backdrop-blur rounded-full" style={{
+        width: `calc(${hightlightsSlides.length} * 40px + ${
+          hightlightsSlides.length - 1
+        } * 10px)`, // Dynamic width: 20px per dot + 10px gap
+        }}>
           {videoRef.current.map((_, i) => (
             // video slider dots
-            <span key={i} className="mx-2 w-2 h-2 bg-gray-200 rounded-full relative cursor-pointer" ref={(el) => (videoDivRef.current[i] = el)}>
-              <span className='absolute h-full w-full rounded-full' ref={(el) => (videoSpanRef.current[i] = el)}/>
+            <span 
+              key={i} 
+              className="mx-2 w-2 h-2 bg-gray-200 rounded-full relative cursor-pointer" 
+              ref={(el) => (videoDivRef.current[i] = el)}
+              onClick={() => handleProcess("video-clicked", i)}
+              >
+              <span 
+                className='absolute h-full w-full rounded-full' 
+                ref={(el) => (videoSpanRef.current[i] = el)}
+              />
             </span>
           ))}
         </div>
